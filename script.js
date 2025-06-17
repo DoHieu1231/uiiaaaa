@@ -19,13 +19,14 @@ document.querySelectorAll('.artwork').forEach(artwork => {
 });
 
 const bgGif = document.getElementById('bg-gif');
-const sound = new Audio('0613.mp3');
+const sound = new Audio('0513.mp3');
 sound.loop = true;
 
 window.addEventListener('mousedown', () => {
     bgGif.style.display = 'block';
+    sound.pause();
     sound.currentTime = 0;
-    sound.play();
+    sound.play().catch(() => {});
 });
 
 window.addEventListener('mouseup', () => {
