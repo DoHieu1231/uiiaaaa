@@ -19,24 +19,36 @@ document.querySelectorAll('.artwork').forEach(artwork => {
 });
 
 const bgGif = document.getElementById('bg-gif');
-const sound = new Audio('0513.mp3');
-sound.loop = true;
+let sound;
+
+// Đảm bảo audio được tạo sau khi có tương tác người dùng (yêu cầu của trình duyệt)
+function playSound() {
+    if (!sound) {
+        sound = new Audio('0513.mp3');
+        sound.loop = true;
+    }
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+}
+
+function stopSound() {
+    if (sound) {
+        sound.pause();
+        sound.currentTime = 0;
+    }
+}
 
 window.addEventListener('mousedown', () => {
     bgGif.style.display = 'block';
-    sound.pause();
-    sound.currentTime = 0;
-    sound.play().catch(() => {});
+    playSound();
 });
 
 window.addEventListener('mouseup', () => {
     bgGif.style.display = 'none';
-    sound.pause();
-    sound.currentTime = 0;
+    stopSound();
 });
 
 window.addEventListener('blur', () => {
     bgGif.style.display = 'none';
-    sound.pause();
-    sound.currentTime = 0;
+    stopSound();
 });
