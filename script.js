@@ -19,16 +19,25 @@ document.querySelectorAll('.artwork').forEach(artwork => {
 });
 
 const bgGif = document.getElementById('bg-gif');
-let sound;
+let sound = null;
+let audioUnlocked = false;
 
-// Đảm bảo audio được tạo sau khi có tương tác người dùng (yêu cầu của trình duyệt)
-function playSound() {
-    if (!sound) {
+// Đảm bảo chỉ unlock audio context sau lần tương tác đầu tiên
+function unlockAudio() {
+    if (!audioUnlocked) {
+        // Tạo audio element lần đầu
         sound = new Audio('0613.mp3');
         sound.loop = true;
+        audioUnlocked = true;
     }
-    sound.currentTime = 0;
-    sound.play().catch(() => {});
+}
+
+function playSound() {
+    if (!audioUnlocked) unlockAudio();
+    if (sound) {
+        sound.currentTime = 0;
+        sound.play().catch(() => {});
+    }
 }
 
 function stopSound() {
@@ -38,12 +47,19 @@ function stopSound() {
     }
 }
 
+// Lắng nghe click đầu tiên để unlock audio (fix chặn autoplay)
 window.addEventListener('mousedown', () => {
+    unlockAudio();
     bgGif.style.display = 'block';
     playSound();
 });
 
 window.addEventListener('mouseup', () => {
+    bgGif.style.display = 'none';
+    stopSound();
+});
+
+window.addEventListener('mouseleave', () => {
     bgGif.style.display = 'none';
     stopSound();
 });
