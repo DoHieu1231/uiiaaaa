@@ -24,7 +24,7 @@ let sound;
 // Đảm bảo audio được tạo sau khi có tương tác người dùng (yêu cầu của trình duyệt)
 function playSound() {
     if (!sound) {
-        sound = new Audio('0513.mp3');
+        sound = new Audio('0613.mp3');
         sound.loop = true;
     }
     sound.currentTime = 0;
